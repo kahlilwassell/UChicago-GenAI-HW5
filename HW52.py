@@ -1,4 +1,4 @@
-# HW52.py — LangGraph + Tavily Search (polished UI, same core logic)
+# HW52.py — LangGraph + Tavily Search
 
 import os
 import re
@@ -14,12 +14,10 @@ from langchain_core.messages import SystemMessage, HumanMessage, BaseMessage
 from langgraph.graph import StateGraph, MessagesState, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
-# -----------------------------
 # Setup
-# -----------------------------
 load_dotenv()
 
-st.set_page_config(page_title="HW 5-2: LangGraph + Tavily", layout="centered")
+st.set_page_config(page_title="HW 52: LangGraph + Tavily", layout="centered")
 st.title("HW 52 — LangGraph + Tavily")
 st.caption("A LangGraph agent that decides when to search and responds with short citations.")
 
@@ -28,17 +26,8 @@ with st.sidebar:
     st.header("Settings")
     temperature = st.slider("Model temperature", 0.0, 1.0, 0.2, 0.05)
     max_results = st.slider("Tavily max results", 1, 10, 5, 1)
-    st.divider()
 
-    openai_ok = bool(os.getenv("OPENAI_API_KEY"))
-    tavily_ok = bool(os.getenv("TAVILY_API_KEY"))
-    st.write("**API Keys**")
-    st.write(f"OpenAI: {'✅ found' if openai_ok else '❌ missing'}")
-    st.write(f"Tavily: {'✅ found' if tavily_ok else '❌ missing'}")
-
-# -----------------------------
 # Tools & Model (same logic)
-# -----------------------------
 tavily_tool = TavilySearch(max_results=max_results)   # keep your existing tool
 TOOLS = [tavily_tool]
 
@@ -56,9 +45,6 @@ sys_msg = SystemMessage(
 )
 
 
-# -----------------------------
-# Agent Node (unchanged core)
-# -----------------------------
 def agent_node(state: MessagesState):
     msgs: List[BaseMessage] = state["messages"]
     if not msgs:
@@ -76,9 +62,7 @@ graph.add_conditional_edges("agent", tools_condition, {"tools": "tools", "__end_
 graph.add_edge("tools", "agent")
 app = graph.compile()
 
-# -----------------------------
 # Small helpers (UI only)
-# -----------------------------
 _URL_RE = re.compile(r"https?://\S+")
 
 
@@ -111,7 +95,7 @@ def render_answer(answer: str):
             st.markdown(f"{i}. <{u}>")
 
 
-# Examples row (UI sugar)
+# Examples row
 st.write("Try one of these:")
 ex1, ex2, ex3 = st.columns(3)
 with ex1:
@@ -124,7 +108,7 @@ with ex3:
     if st.button("Founder of Tavily?", use_container_width=True):
         st.session_state["q"] = "Who founded Tavily?"
 
-# Single-turn ask UI
+# Single turn ask UI
 q = st.text_input(
     "Ask a question",
     key="q",
