@@ -1,0 +1,7 @@
+# Ignore environment and keys
+.env
+GenAI/
+__pycache__/
+*.pyc
+.streamlit/
+.DS_Store
