@@ -24,7 +24,7 @@ def get_model() -> ChatOpenAI:
 
 def pick_secret_word_via_llm(model: ChatOpenAI, max_retries: int = 3) -> str:
     """
-    Ask the LLM to choose a Hangman word. We validate to ensure:
+    Ask the LLM to choose a Hangman word. 
     - single word
     - lowercase a–z
     - 4–10 letters
