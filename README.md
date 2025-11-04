@@ -99,3 +99,9 @@ HW52 includes a Wikipedia integration in addition to Tavily Search — fulfillin
 **Author:** Kahlil Wassell
 **Course:** UChicago MPCS - Generative AI
 **Date:** November 2025
+
+References
+* LangChain Academy GitHub
+* LangChain Python Documentation
+* GeeksforGeeks: What is LangGraph?
+* Github Copilot Suggestions
